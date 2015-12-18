@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<title>login!</title>
+{% endblock %}
+
+{% block content %}
+		<div class='theform'>
+			<form method='post' class='labels'>
+				<h3>Log In</h3>
+				<br>
+				<label>
+					Username <input type='text' name='username' value='{{username}}'>
+				</label><br><br>
+				<label>
+					Password <input type='password' name='password' value='{{password}}'>
+				</label><br>
+				<p style="color:red">{{invalid}}</p>
+				<input type='submit'>
+			</form>
+		</div>
+{% endblock %}

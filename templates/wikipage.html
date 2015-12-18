@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<title>wiki!</title>
+{% endblock %}
+
+{% block content %}
+	{{ (content or '')|safe }}
+{% endblock %}

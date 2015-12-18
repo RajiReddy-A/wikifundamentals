@@ -1,0 +1,57 @@
+body{
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	margin: 0;
+}
+
+.header{
+	width: 100%;
+	height: 3em;
+	background-color: lightgrey;
+}
+
+.inhead{
+	display: inline;
+}
+
+.home{
+	float: left;
+	background-color: white;
+	margin-left: 1em;
+	margin-top: 1em;
+}
+
+.logsign{
+	display: inline-block;
+	background-color: white;
+}
+
+.logsigndiv{
+	display: inline-block;
+	float: right;
+	margin-right: 1em;
+	margin-top: 1em;
+}
+
+a{
+	text-decoration: none;
+	color: black;
+}
+
+.theform{
+	padding: auto;
+}
+
+.labels{
+	margin:auto;
+}
+
+.errors{
+	color:red;
+}
+
+textarea{
+	min-width: 80%;
+	min-height: 30em;
+}

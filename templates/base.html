@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block title %}
+		{% endblock %}
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	</head>
+	<body>
+		{% if not isLoggedIn %}
+		<div class='header' id='loggedout'>
+			<div class='home inhead'>
+				<a href="/">Wiki</a>
+			</div>
+			<div class='logsigndiv inhead'>
+				<div class='logsign'><a href="/login">LOGIN</a></div>
+				<div class='logsign' id='signup'><a href="/signup">SIGNUP</a></div>
+			</div>
+		</div>
+		{% else %}
+		<div class='header' id='loggedin'>
+			<div class='home inhead'>
+				<a href="/">Wiki</a>
+			</div>
+			<div class='logsigndiv inhead'>
+				<div class='logsign'><a id='edit' href="javascript:void(0)">edit</a></div>
+				<div class='logsign' id='signup'><a href="">{{ user }}</a></div>
+				<div class='logsign'><a id='logout' href="/logout">logout</a></div>
+			</div>
+		</div>
+		{% endif %}
+		<br>
+		{% block content %}
+		{% endblock %}
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script type="text/javascript" src="/scripts/base.js"></script>
+	</body>
+</html>

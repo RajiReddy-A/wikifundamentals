@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<title>signup!</title>
+{% endblock %}
+
+{% block content %}
+	<div class='theform'>
+		<form method='post' class='labels'>
+			<h3>Sign Up</h3>
+			<br>
+			<label>
+				<pre>       Username <input type='text' name='username' value='{{username}}'> <p class='errors'>{{invalidName}}</p></pre>
+			</label>
+			<label>
+				<pre>       Password <input type='password' name='password' value='{{password}}'> <p class='errors'>{{invalidPass}}</p></pre>
+			</label>
+			<label>
+				<pre>Verify Password  <input type='password' name='verify' value='{{verify}}'> <p class='errors'>{{invalidVerify}}</p></pre>
+			</label>
+			<label>
+				<pre>Email(optional)  <input type='text' name='email' value='{{email}}'> <p class='errors'>{{invalidEmail}}</p></pre>
+			</label>
+			<input type='submit'>
+		</form>
+	</div>
+{% endblock %}
