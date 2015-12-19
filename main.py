@@ -29,7 +29,7 @@ from google.appengine.api import memcache
 from jinja2.utils import Markup
 JINJA_ENVIRONMENT= jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)+"/templates"), autoescape=True)
 
-SECRET="XXXXXXXX"
+SECRET="XXXXXXX"
 def validCheck(exp,name):
 	the_re=re.compile(exp)
 	return the_re.match(name)
@@ -97,11 +97,15 @@ def theUser(self):
 class MainHandler(Handler):
 	def get(self):
 		user=theUser(self)
+		logging.error("MainHandler get entered")
 		content=memcache.get('frontpage')
 		if not content:
-			article=db.GqlQuery("SELECT content FROM Article where title= :1",'frontpage')
-			content=article.get()
-			memcache.set('frontpage',content)
+			article=db.GqlQuery("SELECT * FROM Article WHERE title= :1 ORDER BY modified DESC LIMIT 1",'frontpage')
+			article=article.get()
+			if article:
+				content=article.content
+			if content:
+				memcache.set('frontpage',content)
 		if content:
 			self.render('wikipage.html',isLoggedIn=user,user=user,content=content)
 		elif user:
@@ -120,7 +124,7 @@ class Signup(Handler):
 			self.write_form()
 		
 	def post(self):
-		self.response.headers['Content-Type']='text/plain'
+		#self.response.headers['Content-Type']='text/plain'
 		username=self.request.get('username')
 		password=self.request.get('password')
 		verify=self.request.get('verify')
@@ -167,7 +171,7 @@ class Login(Handler):
 			self.render("login.html",invalid="")
 
 	def post(self):
-		self.response.headers['Content-Type']='text/plain'
+		#self.response.headers['Content-Type']='text/plain'
 		username=self.request.get('username')
 		password=self.request.get('password')
 		checkUser=db.GqlQuery("SELECT * FROM User where name= :1",username)
@@ -180,7 +184,7 @@ class Login(Handler):
 
 class Logout(Handler):
 	def get(self):
-		self.response.headers['Content-Type']='text/plain'
+		#self.response.headers['Content-Type']='text/plain'
 		self.response.headers.add_header('Set-Cookie',str('name=%s;path=%s;expires=Thu, 01 Jan 1970 00:00:00 GMT' % ('','/')))
 		self.redirect('/login')
 		
@@ -191,8 +195,10 @@ class EditPage(Handler):
 		if user:
 			content=memcache.get(title or 'frontpage')
 			if content is None:
-				article=db.GqlQuery("SELECT content FROM Article where title= :1",title or 'frontpage')
-				content=article.get()
+				article=db.GqlQuery("SELECT * FROM Article WHERE title= :1 ORDER BY modified DESC LIMIT 1",title or 'frontpage')
+				article=article.get()
+				if article:
+					content=article.content
 			self.render('editpage.html',isLoggedIn=True,content=content or '',user=user)
 		else:
 			self.redirect('/'+title or '')
@@ -215,8 +221,11 @@ class WikiPage(Handler):
 		user=theUser(self)
 		content=memcache.get(title)
 		if content is None:
-			article=db.GqlQuery("SELECT content FROM Article where title= :1",title)
-			content=article.get()
+			article=db.GqlQuery("SELECT * FROM Article WHERE title= :1 ORDER BY modified DESC LIMIT 1",title)
+			article=article.get()
+			if article:
+				content=article.content
+				memcache.set(title,content)
 		if content is None and user:
 			self.redirect('/_edit/'+title)
 		else:

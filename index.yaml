@@ -14,3 +14,9 @@ indexes:
   properties:
   - name: title
   - name: content
+
+- kind: Article
+  properties:
+  - name: title
+  - name: modified
+    direction: desc
